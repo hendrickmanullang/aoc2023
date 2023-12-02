@@ -1,7 +1,6 @@
+// the boring stuff
 const fs = require("fs");
-
-const data = fs.readFileSync("text.txt", "utf8");
-
+const data = fs.readFileSync("day2.txt", "utf8");
 const lines = data.split("\n");
 
 let sum = 0;
@@ -30,6 +29,7 @@ const mapReverse = {
   enin: 9,
 };
 
+// helper functions to replace text to integers
 function textToNumber(text) {
   return text.replace(/one|two|three|four|five|six|seven|eight|nine/gi, (x) => {
     return map[x];
@@ -42,6 +42,7 @@ function textToNumberReverse(text) {
   });
 }
 
+// helper function to reduce to just 2 integers
 function truncateNumber(text) {
   if (text.length === 2) {
     return parseInt(text);
@@ -53,6 +54,10 @@ function truncateNumber(text) {
 }
 
 for (let i = 0; i < lines.length - 1; i++) {
+  // need to find the first and last integer from the text
+  // it is easy to find the first integer because it is simply the first result
+  // for the last integer, you need to read the text in reverse (otherwise the replacer function will find the first "text" integer it finds)
+  // "eightwo" will become '8wo' instead of 'eigh2'
   const numberLineFrontToBack = textToNumber(lines[i]);
   const numberLineBackToFront = textToNumberReverse(
     lines[i].split("").reverse().join("")
